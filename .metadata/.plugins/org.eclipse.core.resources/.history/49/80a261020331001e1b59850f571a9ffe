@@ -1,0 +1,69 @@
+package com.Sunbash.Services.ServicesImpl;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.Sunbash.ExceptionHandler.BodyNotFoundException;
+import com.Sunbash.ExceptionHandler.ResourseNotFoundException;
+import com.Sunbash.Moduls.Customer;
+import com.Sunbash.PlayLoad.CustomerDto;
+import com.Sunbash.PlayLoad.CustomerResponseDto;
+import com.Sunbash.Repositories.CustomerRepo;
+import com.Sunbash.Services.CustomerService;
+
+@Service
+public class CustomerServiceImpl implements CustomerService{
+
+	@Autowired
+	private CustomerRepo customerRepo;
+	
+	@Autowired
+	private ModelMapper mapper;
+	
+	@Override
+	public CustomerResponseDto createCustomer(CustomerDto customer) throws BodyNotFoundException {
+			
+		//Converting CustomerDto to Customer 
+		
+			Customer data = this.mapper.map(customer, Customer.class);
+			//set the UUID 
+			data.setId(UUID.randomUUID());
+			
+			Customer saveCustomer = this.customerRepo.save(data);
+			
+			//Converting Customer to CustomerResponseDto
+			CustomerResponseDto responseDto = this.mapper.map(saveCustomer, CustomerResponseDto.class);
+		return responseDto;
+		
+	}
+
+	@Override
+	public CustomerResponseDto updateCustomer(UUID id, CustomerDto customer) {
+			Customer existingCustomer = this.customerRepo.findById(id).orElseThrow(() -> new ResourseNotFoundException("Custimer", "id", id));
+		     // Map the updated fields from customer to existingCustomer
+			this.mapper.map(customer, existingCustomer);
+			// this will save the update customer
+			Customer saveCostomer = this.customerRepo.save(existingCustomer);
+			//converting Customer to Customer ResponseDto for response
+			CustomerResponseDto response = this.mapper.map(saveCostomer, CustomerResponseDto.class);
+			
+			return response;
+	}
+
+	@Override
+	public CustomerResponseDto deleteCustomer(UUID id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CustomerResponseDto> getAllCustomer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

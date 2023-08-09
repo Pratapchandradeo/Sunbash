@@ -1,0 +1,10 @@
+package com.Sunbash.PlayLoad;
+
+import java.util.UUID;
+
+public class AdminDtoResponse {
+	private UUID id;
+	private String login_id;
+	private String password;
+
+}

@@ -1,0 +1,42 @@
+package com.Sunbash.Controllers;
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.Sunbash.ExceptionHandler.BodyNotFoundException;
+import com.Sunbash.PlayLoad.CustomerDto;
+import com.Sunbash.Services.CustomerService;
+
+@RestController
+@RequestMapping("/api/")
+public class CustomerController {
+	
+	@Autowired
+	private CustomerService customerService;
+	
+	
+	@PostMapping("/")
+	public ResponseEntity<CustomerDto> createCustomer(@RequestBody(required = false) CustomerDto customer, BindingResult bindingResult )
+	{
+		if(bindingResult.hasErrors())
+		{
+			throw new BodyNotFoundException();
+		}
+		
+		CustomerDto response = this.customerService.createCustomer(customer);
+		
+		return new ResponseEntity<CustomerDto>(response,HttpStatus.CREATED);
+	}
+	
+	
+
+}

@@ -1,0 +1,35 @@
+package com.Sunbash.Services.ServicesImpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.Sunbash.ExceptionHandler.ResourseNotFoundException;
+import com.Sunbash.Moduls.Admin;
+import com.Sunbash.Repositories.AdminRepo;
+
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService {
+	
+	
+	@Autowired
+	private AdminRepo adminRepo;
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		System.out.println(username+"==============================================================================================");
+		Admin admin = this.adminRepo.findByLoginId(username);
+		System.out.println(admin);
+		System.out.println("***********************************************************************************************************");
+		if(admin==null)
+		{
+			System.out.println("User not found in UserDeImp");
+			throw new ResourseNotFoundException("Admin", "Login_Id", username);
+		}
+		System.out.println(admin.getLogin_id());
+		return admin;
+	}
+
+}

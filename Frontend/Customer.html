@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <Style>
+        .table{
+            border: 1px solid black;
+        }
+        .table tr th {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        tbody td{
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </Style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer List</title>
+
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Customer List</title>
+                </head>
+                <body>
+
+                    <button onclick="createPage()"><H2>Create Customer</H2></button>
+
+                    <h2>Customer List</h2>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>State</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customerTableBody">
+                            <!-- Customer data will be populated here -->
+                        </tbody>
+                    </table>
+                
+                    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+                    <script src="./Customer.js"></script>
+                   
+                </body>
+                </html>
+                

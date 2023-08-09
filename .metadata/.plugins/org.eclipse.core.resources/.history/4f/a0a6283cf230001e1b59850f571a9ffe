@@ -1,0 +1,10 @@
+package com.Sunbash.Services;
+
+import com.Sunbash.PlayLoad.AdminDto;
+import com.Sunbash.PlayLoad.AdminDtoResponse;
+
+public interface AdminServices {
+	
+	AdminDtoResponse createAdmin(AdminDto admin);
+
+}

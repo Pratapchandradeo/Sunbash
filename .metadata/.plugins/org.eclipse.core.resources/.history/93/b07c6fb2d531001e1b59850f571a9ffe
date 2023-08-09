@@ -1,0 +1,7 @@
+package com.Sunbash.PlayLoad;
+
+public class JwtResponse {
+	
+	String token;
+
+}

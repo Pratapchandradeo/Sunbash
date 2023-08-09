@@ -1,0 +1,8 @@
+package com.Sunbash.Config;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class AuthenticationnEntryPoint implements AuthenticationEntryPoint {
+
+}

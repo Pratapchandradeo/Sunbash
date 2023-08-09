@@ -1,0 +1,16 @@
+package com.Sunbash.Services;
+
+import java.util.List;
+import java.util.UUID;
+
+import com.Sunbash.PlayLoad.CustomerDto;
+import com.Sunbash.PlayLoad.CustomerResponseDto;
+
+public interface CustomerService {
+
+	CustomerResponseDto createCustomer(CustomerDto customer);
+	CustomerResponseDto updateCustomer(UUID id, CustomerDto customer);
+	CustomerResponseDto deleteCustomer(UUID id);
+	
+	List<CustomerResponseDto> getAllCustomer();
+}

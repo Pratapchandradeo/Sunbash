@@ -1,0 +1,5 @@
+package com.Sunbash.Repositories;
+
+public interface CustomerRepo {
+
+}

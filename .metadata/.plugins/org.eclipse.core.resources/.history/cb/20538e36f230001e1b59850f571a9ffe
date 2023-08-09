@@ -1,0 +1,22 @@
+package com.Sunbash.Services.ServicesImpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.Sunbash.PlayLoad.AdminDto;
+import com.Sunbash.PlayLoad.AdminDtoResponse;
+import com.Sunbash.Repositories.AdminRepo;
+import com.Sunbash.Services.AdminServices;
+@Service
+public class AdminService implements AdminServices {
+	
+	@Autowired
+	private AdminRepo adminRepo;
+
+	@Override
+	public AdminDtoResponse createAdmin(AdminDto admin) {
+		
+		return null;
+	}
+
+}

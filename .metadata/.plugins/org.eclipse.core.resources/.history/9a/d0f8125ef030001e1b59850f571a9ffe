@@ -1,0 +1,6 @@
+package com.Sunbash.Services;
+
+public interface CustomerDto {
+
+	
+}

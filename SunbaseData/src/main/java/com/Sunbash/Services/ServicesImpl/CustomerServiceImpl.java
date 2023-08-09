@@ -1,0 +1,83 @@
+package com.Sunbash.Services.ServicesImpl;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.Sunbash.ExceptionHandler.BodyNotFoundException;
+import com.Sunbash.ExceptionHandler.ResourseNotFoundException;
+import com.Sunbash.Moduls.Customer;
+import com.Sunbash.PlayLoad.CustomerDto;
+import com.Sunbash.Repositories.CustomerRepo;
+import com.Sunbash.Services.CustomerService;
+
+@Service
+public class CustomerServiceImpl implements CustomerService{
+
+	@Autowired
+	private CustomerRepo customerRepo;
+	
+	@Autowired
+	private ModelMapper mapper;
+	
+	@Override
+	public CustomerDto createCustomer(CustomerDto customer) throws BodyNotFoundException {
+			
+		//Converting CustomerDto to Customer 
+		System.out.println(customer.toString());
+			Customer data = this.mapper.map(customer, Customer.class);
+			//set the UUID 
+			data.setId(UUID.randomUUID());
+			
+			System.out.println(data.toString());
+			Customer saveCustomer = this.customerRepo.save(data);
+			
+			//Converting Customer to CustomerResponseDto
+			CustomerDto responseDto = this.mapper.map(saveCustomer, CustomerDto.class);
+		return responseDto;
+		
+	}
+
+	@Override
+	public CustomerDto updateCustomer(UUID id, CustomerDto customer) {
+		
+			Customer existingCustomer = this.customerRepo.findById(id).orElseThrow(() -> new ResourseNotFoundException("Custimer", "id", id));
+			System.out.println(existingCustomer);
+		     // Map the updated fields from customer to existingCustomer
+			this.mapper.map(customer, existingCustomer);
+			// this will save the update customer
+			Customer saveCostomer = this.customerRepo.save(existingCustomer);
+			//converting Customer to Customer ResponseDto for response
+			CustomerDto response = this.mapper.map(saveCostomer, CustomerDto.class);
+			
+			return response;
+	}
+
+	@Override
+	public void deleteCustomer(UUID id) {
+			Customer customer = this.customerRepo.findById(id).orElseThrow(() -> new ResourseNotFoundException("Customer", "id", id));
+			this.customerRepo.delete(customer);
+			
+	}
+
+	@Override
+	public List<CustomerDto> getAllCustomer() {
+		List<Customer> allCustomers = this.customerRepo.findAll();
+		
+		List<CustomerDto> response = allCustomers.stream().map( c -> this.mapper.map(c, CustomerDto.class)).collect(Collectors.toList());
+		
+		return response;
+	}
+
+	@Override
+	public CustomerDto getById(UUID id) {
+		Customer customer = this.customerRepo.findById(id).orElseThrow(() -> new ResourseNotFoundException("Customer", "id", id));
+		CustomerDto customerDto = this.mapper.map(customer, CustomerDto.class);
+		return customerDto;
+	}
+
+}

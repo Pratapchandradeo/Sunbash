@@ -1,0 +1,10 @@
+package com.Sunbash.PlayLoad;
+
+import lombok.AllArgsConstructor;
+
+
+public class JwtResponse {
+	
+	String token;
+
+}

@@ -1,0 +1,61 @@
+package com.Sunbash.Controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.Sunbash.Config.JwtUtils;
+import com.Sunbash.PlayLoad.JwtRequest;
+import com.Sunbash.PlayLoad.JwtResponse;
+import com.Sunbash.Services.ServicesImpl.UserDetailsServiceImpl;
+
+@RestController
+@CrossOrigin("*")
+public class LoginController {
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private UserDetailsServiceImpl detailsServiceImpl;
+	
+	@Autowired
+	private JwtUtils jwtUtils;
+	
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody JwtRequest jwtRequest) throws Exception{
+		System.out.println("*********************************");
+		try {
+			authenticate(jwtRequest.getLogin_id(), jwtRequest.getPassword());
+		} catch (UsernameNotFoundException e) {
+			e.printStackTrace();
+			throw new Exception("User not found !!!!!");
+		}
+		
+		UserDetails userDetails = this.detailsServiceImpl.loadUserByUsername(jwtRequest.getLogin_id());
+		String token = this.jwtUtils.generateToken(userDetails);
+		System.out.println(token);
+		return ResponseEntity.ok(new JwtResponse(token));
+	}
+	
+	public void authenticate(String login_id,String password) throws Exception {
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login_id, password));
+			
+		} catch (DisabledException e) {
+			throw new Exception("USER DESABLED"+e.getMessage());
+		}
+		catch (BadCredentialsException e) {
+			throw new Exception("Invalide Credentials"+e.getMessage());
+		}
+	}
+}

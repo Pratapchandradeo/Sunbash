@@ -1,0 +1,13 @@
+package com.Sunbash.ExceptionHandler;
+
+public class BodyNotFoundException extends Exception {
+	
+	
+	public BodyNotFoundException() {
+		super("Body Not Found");
+	}
+	
+	public BodyNotFoundException(String message) {
+		super(message);
+	}
+}
